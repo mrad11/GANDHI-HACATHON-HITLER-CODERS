@@ -35,20 +35,19 @@ class DesktopManager {
       { id: 'my-computer', label: 'My Computer', icon: Win98Icons.computer, action: () => window.appLauncher.openExplorer('C:') },
       { id: 'my-documents', label: 'My Documents', icon: Win98Icons.folder, action: () => window.appLauncher.openExplorer('C:\\My Documents') },
       { id: 'internet-explorer', label: 'Internet Explorer', icon: Win98Icons.ie, action: () => window.appLauncher.openIE() },
+      { id: 'network-neighborhood', label: 'Network Neighborhood', icon: Win98Icons.network, action: () => window.judgesChaosEngine.spawnCascadingError('Network Neighborhood', 'Entire network is currently downloading Darude Sandstorm at 2.4 KB/s.') },
       { id: 'recycle-bin', label: 'Recycle Bin', icon: Win98Icons.trashEmpty, action: () => window.appLauncher.openRecycleBin() },
+      { id: 'setup-msn', label: 'Setup MSN Internet', icon: Win98Icons.msn, action: () => window.internetExplorerApp.open('http://www.google.com') },
+      { id: 'outlook-express', label: 'Outlook Express', icon: Win98Icons.outlook, action: () => window.judgesChaosEngine.spawnCascadingError('Outlook Express', '0 new messages. 48 spams regarding Y2K survival bunkers.') },
+      { id: 'online-services', label: 'Online Services', icon: Win98Icons.onlineServices, action: () => window.appLauncher.openExplorer('C:\\My Documents') },
       { id: 'cmd-prompt', label: 'MS-DOS Prompt', icon: Win98Icons.dos, action: () => window.appLauncher.openDOS() },
       { id: 'paint', label: 'MS Paint', icon: Win98Icons.paint, action: () => window.appLauncher.openPaint() },
-      { id: 'winamp', label: 'Winamp', icon: Win98Icons.winamp, action: () => window.appLauncher.openWinamp() },
+      { id: 'winamp', label: 'Media Player', icon: Win98Icons.winamp, action: () => window.appLauncher.openWinamp() },
+      { id: 'doom98', label: 'Doom 98 3D', icon: Win98Icons.doom, action: () => window.appLauncher.openRaycaster() },
       { id: 'minesweeper', label: 'Minesweeper', icon: Win98Icons.minesweeper, action: () => window.appLauncher.openMinesweeper() },
       { id: 'solitaire', label: 'Solitaire', icon: Win98Icons.solitaire, action: () => window.appLauncher.openSolitaire() },
-      { id: 'doom98', label: 'Doom 98 3D', icon: Win98Icons.doom, action: () => window.appLauncher.openRaycaster() },
       { id: 'pinball', label: 'Space Cadet', icon: Win98Icons.pinball, action: () => window.appLauncher.openPinball() },
-      { id: 'y2k-diary', label: 'Y2K Diary.txt', icon: Win98Icons.textDoc, action: () => window.appLauncher.openNotepad('C:\\My Documents\\1999\\diary_december_1999_y2k.txt') },
-      { id: 'secret-vault', label: 'Secret Vault', icon: Win98Icons.folder, action: () => window.appLauncher.openExplorer('C:\\My Documents\\Secret_Vault') },
-      { id: 'judge-portal', label: 'JUDGE_RATING.EXE', icon: Win98Icons.windowsLogo, action: () => window.judgesChaosEngine.openJudgeRatingApp() },
-      { id: 'chaos-ctrl', label: 'PRANK_CONTROLS.EXE', icon: Win98Icons.calc, action: () => window.judgesChaosEngine.openPrankSettings() },
-      { id: 'do-not-click', label: 'DO_NOT_CLICK.EXE', icon: Win98Icons.shutDown, action: () => window.judgesChaosEngine.spawnCascadingError('CRITICAL CATASTROPHE', 'You clicked DO_NOT_CLICK.EXE! Windows 98 memory leak triggered.') },
-      { id: 'bsod-test', label: 'CRASH_TEST.EXE', icon: Win98Icons.shutDown, action: () => window.appLauncher.triggerBSOD() }
+      { id: 'judge-portal', label: 'JUDGE_RATING.EXE', icon: Win98Icons.windowsLogo, action: () => window.judgesChaosEngine.openJudgeRatingApp() }
     ];
 
     this.iconsContainer.innerHTML = '';

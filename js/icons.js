@@ -52,6 +52,12 @@ const Win98Icons = {
 
   crt: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><rect x="1" y="2" width="14" height="10" rx="1" fill="%23222" stroke="%2300ff00"/><rect x="3" y="4" width="10" height="6" fill="%23003300"/><rect x="6" y="12" width="4" height="2" fill="%23666"/></svg>`,
 
+  outlook: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect x="3" y="6" width="26" height="20" fill="%23ffffff" stroke="%23000"/><polygon points="3,6 16,18 29,6" fill="%23f0f0f0" stroke="%23000"/><circle cx="23" cy="21" r="7" fill="%230066cc"/><ellipse cx="23" cy="21" rx="7" ry="3" fill="none" stroke="%23ffcc00" stroke-width="1.5"/></svg>`,
+
+  msn: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><circle cx="16" cy="16" r="13" fill="%23cc0000" stroke="%23000"/><path d="M10 16 C10 10 16 10 16 16 C16 10 22 10 22 16 C22 22 16 22 16 16 C16 22 10 22 10 16 Z" fill="%233388ff"/><circle cx="16" cy="16" r="3" fill="%23ffff00"/></svg>`,
+
+  onlineServices: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M2 6h10l3 3h15v19H2z" fill="%23fcb000" stroke="%23804000"/><circle cx="21" cy="20" r="6" fill="%23008080" stroke="%23000"/><line x1="21" y1="14" x2="21" y2="26" stroke="%23ffff00"/><line x1="15" y1="20" x2="27" y2="20" stroke="%23ffff00"/></svg>`,
+
   clippy: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path d="M24 54 C16 54 10 48 10 38 L10 18 C10 10 16 4 24 4 C32 4 38 10 38 18 L38 42 C38 48 34 52 28 52 C22 52 18 48 18 42 L18 20" fill="none" stroke="%23888888" stroke-width="6" stroke-linecap="round"/><circle cx="21" cy="22" r="5" fill="%23ffffff"/><circle cx="21" cy="22" r="2.5" fill="%23000000"/><circle cx="33" cy="22" r="5" fill="%23ffffff"/><circle cx="33" cy="22" r="2.5" fill="%23000000"/><path d="M16 14 Q21 10 26 14" fill="none" stroke="%23000" stroke-width="1.5"/><path d="M28 14 Q33 10 38 14" fill="none" stroke="%23000" stroke-width="1.5"/></svg>`
 };
 

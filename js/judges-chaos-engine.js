@@ -124,6 +124,7 @@ class JudgesChaosEngine {
     icons.forEach(icon => {
       icon.style.display = 'flex';
       icon.style.opacity = '1';
+      icon.style.pointerEvents = 'auto';
       icon.style.transform = 'translate(0px, 0px) scale(1)';
       icon.style.transition = 'all 0.4s ease-out';
     });
@@ -184,19 +185,13 @@ class JudgesChaosEngine {
       }
     }, 1400);
 
-    // 4. The Icons DISAPPEAR or Scatter Frantically!
+    // 4. EVERY SINGLE ICON VANISHES COMPLETELY!
     const icons = document.querySelectorAll('.desktop-icon');
-    icons.forEach((icon, idx) => {
-      if (Math.random() > 0.5) {
-        // Disappear completely
-        icon.style.opacity = '0';
-        icon.style.transform = 'scale(0.1)';
-      } else {
-        // Scatter randomly
-        const rx = (Math.random() - 0.5) * 400;
-        const ry = (Math.random() - 0.5) * 300;
-        icon.style.transform = `translate(${rx}px, ${ry}px) rotate(${Math.random()*40-20}deg)`;
-      }
+    icons.forEach(icon => {
+      icon.style.opacity = '0';
+      icon.style.pointerEvents = 'none';
+      icon.style.transform = 'scale(0.01)';
+      icon.style.transition = 'all 0.3s ease-in';
     });
 
     // 5. Burst 4-5 Hilarious Meme Error Popups
