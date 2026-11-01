@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Windows 98 SE - The Abandoned Computer | Gandhi Hackathon 2026</title>
+  <meta name="description" content="A pixel-faithful, fully interactive Windows 98 SE simulation for the Gandhi Hackathon (OpenLake x Meraz, IIT Bhilai). Experience the abandoned computer from 1998." />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='%23f25022' d='M1 2l6-1v6H1z'/><path fill='%237fba00' d='M8 0.8l7-1.2v6.4H8z'/><path fill='%2300a4ef' d='M1 8h6v6l-6-1z'/><path fill='%23ffb900' d='M8 8h7v6.4l-7-1z'/></svg>" />
+
+  <!-- Core Stylesheets -->
+  <link rel="stylesheet" href="css/win98-core.css" />
+  <link rel="stylesheet" href="css/desktop.css" />
+  <link rel="stylesheet" href="css/taskbar.css" />
+  <link rel="stylesheet" href="css/crt-effects.css" />
+  <link rel="stylesheet" href="css/apps.css" />
+</head>
+<body>
+
+  <!-- ==================== CRT MONITOR OVERLAY ==================== -->
+  <div id="crt-overlay"></div>
+
+  <!-- ==================== BIOS POST BOOT SCREEN ==================== -->
+  <div id="boot-screen">
+    <div class="bios-header">
+      <div>
+        <div style="color: #ff0000; font-weight: bold; font-size: 16px;">Award Modular BIOS v4.51PG</div>
+        <div>An Energy Star Ally · Copyright (C) 1984-98, Award Software, Inc.</div>
+      </div>
+      <div class="energy-star-badge">
+        ENERGY<br/>STAR
+      </div>
+    </div>
+    <div id="bios-text">
+      <!-- Injected by js/apps/bsod.js -->
+    </div>
+  </div>
+
+  <!-- ==================== WINDOWS 98 BOOT SPLASH SCREEN ==================== -->
+  <div id="win98-splash">
+    <div class="splash-box">
+      <div class="splash-logo-title">
+        <div class="splash-flag">
+          <div class="f-red"></div>
+          <div class="f-green"></div>
+          <div class="f-blue"></div>
+          <div class="f-yellow"></div>
+        </div>
+        <span>Microsoft®</span>
+      </div>
+      <div class="splash-subtitle">Windows 98</div>
+      <div style="color: #aaa; font-size: 11px; margin-top: 6px;">Second Edition · Abandoned Computer Archives</div>
+      <div class="splash-loading-bar-container">
+        <div class="splash-loading-bar"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== BLUE SCREEN OF DEATH (BSOD) ==================== -->
+  <div id="bsod">
+    <div class="bsod-title">Windows</div>
+    <div class="bsod-body">
+      An exception 0E has occurred at 0028:C0011E36 in VxD VMM(01) + 00010E36.<br/>
+      This was called from 0028:C001C6D0 in VxD VMM(01) + 0001B6D0.<br/><br/>
+      *** STOP: 0xLATENT_01 (0xSAMAY_RAINA, 0xIIT_BHILAI_MERAZ, 0x00000098)<br/><br/>
+      * Press any key to terminate the current application.<br/>
+      * Press CTRL+ALT+DEL again to restart your computer. You will lose any unsaved information in all applications.<br/><br/>
+      <div class="bsod-prompt">Press any key or click anywhere to restart Windows 98..._</div>
+    </div>
+  </div>
+
+  <!-- ==================== DESKTOP CANVAS ==================== -->
+  <div id="desktop">
+    <!-- Desktop Icons Container -->
+    <div class="desktop-icons-container" id="desktop-icons"></div>
+
+    <!-- Marquee Selection Rectangle -->
+    <div id="selection-box"></div>
+
+    <!-- Interactive Clippy Assistant -->
+    <div id="clippy-container"></div>
+  </div>
+
+  <!-- ==================== TASKBAR ==================== -->
+  <div id="taskbar">
+    <!-- Start Button -->
+    <button id="start-button" title="Click here to begin.">
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='%23f25022' d='M1 2l6-1v6H1z'/><path fill='%237fba00' d='M8 0.8l7-1.2v6.4H8z'/><path fill='%2300a4ef' d='M1 8h6v6l-6-1z'/><path fill='%23ffb900' d='M8 8h7v6.4l-7-1z'/></svg>" alt="" />
+      <b>Start</b>
+    </button>
+
+    <div class="taskbar-divider"></div>
+
+    <!-- Quick Launch -->
+    <div class="quick-launch">
+      <button class="quick-launch-btn" id="ql-desktop" title="Show Desktop">
+        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect x='2' y='2' width='12' height='10' fill='%23008080' stroke='%23000'/><rect x='4' y='12' width='8' height='2' fill='%23808080'/></svg>" alt="" />
+      </button>
+      <button class="quick-launch-btn" id="ql-ie" title="Launch Internet Explorer">
+        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle cx='8' cy='8' r='6' fill='%230066cc'/><ellipse cx='8' cy='8' rx='8' ry='3' fill='none' stroke='%23ffcc00' stroke-width='1.5' transform='rotate(-30 8 8)'/></svg>" alt="" />
+      </button>
+      <button class="quick-launch-btn" id="ql-paint" title="Launch MS Paint">
+        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle cx='8' cy='8' r='6' fill='%23ffffcc' stroke='%23804000'/><circle cx='6' cy='6' r='1.5' fill='%23ff0000'/><circle cx='10' cy='6' r='1.5' fill='%230000ff'/></svg>" alt="" />
+      </button>
+      <button class="quick-launch-btn" id="ql-cmd" title="Launch MS-DOS Prompt">
+        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect x='1' y='2' width='14' height='12' fill='%23000'/><text x='3' y='10' font-family='monospace' font-size='6' fill='%23fff'>C:</text></svg>" alt="" />
+      </button>
+    </div>
+
+    <div class="taskbar-divider"></div>
+
+    <!-- Active Windows Tasks -->
+    <div id="task-list"></div>
+
+    <div class="taskbar-divider"></div>
+
+    <!-- System Tray -->
+    <div id="system-tray">
+      <img class="tray-icon" id="tray-volume" title="Volume Control" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><polygon points='2,5 6,5 10,2 10,14 6,11 2,11' fill='%23000'/><path d='M12 5c1 1.5 1 4.5 0 6' fill='none' stroke='%23000' stroke-width='1.2'/></svg>" alt="" />
+      <img class="tray-icon" id="tray-crt" title="Toggle Retro CRT Shader" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect x='1' y='2' width='14' height='10' rx='1' fill='%23222' stroke='%2300ff00'/><rect x='3' y='4' width='10' height='6' fill='%23003300'/><rect x='6' y='12' width='4' height='2' fill='%23666'/></svg>" alt="" />
+      <span id="tray-clock">12:00 PM</span>
+    </div>
+  </div>
+
+  <!-- ==================== START MENU ==================== -->
+  <div id="start-menu">
+    <div class="start-menu-inner">
+      <div class="start-sidebar">
+        <div class="start-sidebar-text">Windows<span>98</span></div>
+      </div>
+      <div class="start-items">
+        <!-- Programs Menu with Submenus -->
+        <div class="start-item has-sub" id="sm-programs">
+          <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><path d='M2 6h10l3 3h15v19H2z' fill='%23fcb000' stroke='%23804000'/></svg>" alt="" />
+          <span class="start-item-text"><u>P</u>rograms</span>
+
+          <!-- Level 1 Submenu -->
+          <div class="start-submenu">
+            <!-- Accessories -->
+            <div class="start-submenu-item has-sub">
+              <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><path d='M2 6h10l3 3h15v19H2z' fill='%23fcb000' stroke='%23804000'/></svg>" alt="" />
+              <span>Accessories</span>
+              <!-- Level 2 Submenu -->
+              <div class="start-submenu">
+                <div class="start-submenu-item" id="sm-paint">
+                  <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='12' fill='%23ffffcc' stroke='%23804000'/></svg>" alt="" />
+                  <span>Paint</span>
+                </div>
+                <div class="start-submenu-item" id="sm-notepad">
+                  <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='5' y='3' width='22' height='26' fill='%23ffffdf' stroke='%23000'/></svg>" alt="" />
+                  <span>Notepad</span>
+                </div>
+                <div class="start-submenu-item" id="sm-wordpad">
+                  <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text x='8' y='24' font-family='Arial' font-size='18' font-weight='bold' fill='%230000aa'>W</text></svg>" alt="" />
+                  <span>WordPad</span>
+                </div>
+                <div class="start-submenu-item" id="sm-calc">
+                  <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='4' y='2' width='24' height='28' fill='%23c0c0c0' stroke='%23000'/></svg>" alt="" />
+                  <span>Calculator</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Games -->
+            <div class="start-submenu-item has-sub">
+              <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><path d='M2 6h10l3 3h15v19H2z' fill='%23fcb000' stroke='%23804000'/></svg>" alt="" />
+              <span>Games</span>
+              <div class="start-submenu">
+                <div class="start-submenu-item" id="sm-minesweeper">
+                  <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='8' fill='%23000'/></svg>" alt="" />
+                  <span>Minesweeper</span>
+                </div>
+                <div class="start-submenu-item" id="sm-solitaire">
+                  <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='6' y='3' width='20' height='26' fill='%23fff' stroke='%23000'/></svg>" alt="" />
+                  <span>Solitaire</span>
+                </div>
+                <div class="start-submenu-item" id="sm-doom">
+                  <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='4' y='4' width='24' height='24' fill='%23440000'/></svg>" alt="" />
+                  <span>Doom 98 3D</span>
+                </div>
+                <div class="start-submenu-item" id="sm-pinball">
+                  <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='10' fill='%23111133'/></svg>" alt="" />
+                  <span>Space Cadet Pinball</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="start-submenu-item" id="sm-ie">
+              <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='11' fill='%230066cc'/></svg>" alt="" />
+              <span>Internet Explorer</span>
+            </div>
+            <div class="start-submenu-item" id="sm-winamp">
+              <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='3' y='3' width='26' height='26' fill='%23222'/></svg>" alt="" />
+              <span>Winamp</span>
+            </div>
+            <div class="start-submenu-item" id="sm-cmd">
+              <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='3' y='4' width='26' height='24' fill='%23000'/></svg>" alt="" />
+              <span>MS-DOS Prompt</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Favorites -->
+        <div class="start-item has-sub" id="sm-favorites">
+          <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><polygon points='16,2 20,12 30,13 22,20 25,30 16,24 7,30 10,20 2,13 12,12' fill='%23ffcc00' stroke='%23804000'/></svg>" alt="" />
+          <span class="start-item-text">Fa<u>v</u>orites</span>
+          <div class="start-submenu">
+            <div class="start-submenu-item" onclick="window.appLauncher.openIE('http://www.google.com')">Google 1998</div>
+            <div class="start-submenu-item" onclick="window.appLauncher.openIE('http://www.geocities.com')">GeoCities Vault</div>
+            <div class="start-submenu-item" onclick="window.appLauncher.openIE('http://meraz.iitbhilai.ac.in/latent')">Latent Hackathon Portal</div>
+          </div>
+        </div>
+
+        <!-- Documents -->
+        <div class="start-item has-sub" id="sm-documents">
+          <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><path d='M2 6h10l3 3h15v19H2z' fill='%23fcb000' stroke='%23804000'/></svg>" alt="" />
+          <span class="start-item-text"><u>D</u>ocuments</span>
+          <div class="start-submenu">
+            <div class="start-submenu-item" onclick="window.appLauncher.openExplorer('C:\\My Documents')">My Documents</div>
+            <div class="start-submenu-item" onclick="window.appLauncher.openExplorer('C:\\My Documents\\1998')">1998 Archives</div>
+            <div class="start-submenu-item" onclick="window.appLauncher.openExplorer('C:\\My Documents\\1999')">1999 Y2K Plans</div>
+            <div class="start-submenu-item" onclick="window.appLauncher.openExplorer('C:\\My Documents\\2001')">2001 Dossiers</div>
+            <div class="start-submenu-item" onclick="window.appLauncher.openExplorer('C:\\My Documents\\Secret_Vault')">Secret Vault</div>
+          </div>
+        </div>
+
+        <!-- Settings -->
+        <div class="start-item has-sub" id="sm-settings">
+          <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='10' fill='%23808080' stroke='%23000'/></svg>" alt="" />
+          <span class="start-item-text"><u>S</u>ettings</span>
+          <div class="start-submenu">
+            <div class="start-submenu-item" onclick="window.appLauncher.openSystemProperties()">Control Panel</div>
+            <div class="start-submenu-item" onclick="window.appLauncher.openSystemProperties()">System Properties</div>
+          </div>
+        </div>
+
+        <!-- Help -->
+        <div class="start-item" id="sm-help">
+          <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='12' fill='%23000080'/><text x='11' y='23' font-family='Arial' font-size='20' font-weight='bold' fill='%23fff'>?</text></svg>" alt="" />
+          <span class="start-item-text"><u>H</u>elp</span>
+        </div>
+
+        <!-- Run -->
+        <div class="start-item" id="sm-run">
+          <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='4' y='4' width='24' height='24' fill='%23c0c0c0' stroke='%23000'/><text x='6' y='22' font-family='Arial' font-size='16' font-weight='bold' fill='%23000080'>R</text></svg>" alt="" />
+          <span class="start-item-text"><u>R</u>un...</span>
+        </div>
+
+        <div class="start-separator"></div>
+
+        <!-- Shut Down -->
+        <div class="start-item" id="sm-shutdown">
+          <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='11' fill='none' stroke='%23ff0000' stroke-width='3'/><line x1='16' y1='3' x2='16' y2='15' stroke='%23ff0000' stroke-width='3'/></svg>" alt="" />
+          <span class="start-item-text">Sh<u>u</u>t Down...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== DESKTOP CONTEXT MENU ==================== -->
+  <div class="context-menu" id="desktop-context-menu">
+    <div class="context-menu-item" id="ctx-refresh"><u>R</u>efresh</div>
+    <div class="context-menu-separator"></div>
+    <div class="context-menu-item" id="ctx-new-note">New <u>T</u>ext Document</div>
+    <div class="context-menu-separator"></div>
+    <div class="context-menu-item has-submenu" id="ctx-wallpaper">
+      Change Wallpaper
+      <div class="start-submenu">
+        <div class="start-submenu-item" id="ctx-wallpaper-teal">Classic Teal</div>
+        <div class="start-submenu-item" id="ctx-wallpaper-clouds">Windows Clouds</div>
+        <div class="start-submenu-item" id="ctx-wallpaper-matrix">The Matrix Rain</div>
+      </div>
+    </div>
+    <div class="context-menu-separator"></div>
+    <div class="context-menu-item" id="ctx-properties">P<u>r</u>operties</div>
+  </div>
+
+  <!-- ==================== SCRIPTS ==================== -->
+  <script src="js/icons.js"></script>
+  <script src="js/audio-engine.js"></script>
+  <script src="js/filesystem.js"></script>
+  <script src="js/window-manager.js"></script>
+  <script src="js/apps/explorer.js"></script>
+  <script src="js/apps/internet-explorer.js"></script>
+  <script src="js/apps/paint.js"></script>
+  <script src="js/apps/notepad.js"></script>
+  <script src="js/apps/calculator.js"></script>
+  <script src="js/apps/winamp.js"></script>
+  <script src="js/apps/cmd-prompt.js"></script>
+  <script src="js/apps/minesweeper.js"></script>
+  <script src="js/apps/solitaire.js"></script>
+  <script src="js/apps/raycaster3d.js"></script>
+  <script src="js/apps/pinball.js"></script>
+  <script src="js/apps/image-viewer.js"></script>
+  <script src="js/apps/bsod.js"></script>
+  <script src="js/apps/launcher.js"></script>
+  <script src="js/desktop.js"></script>
+  <script src="js/taskbar.js"></script>
+  <script src="js/clippy.js"></script>
+
+  <!-- ==================== SYSTEM BOOTSTRAP ==================== -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Initialize Window Manager
+      window.windowManager.init();
+
+      // 2. Initialize Desktop & Icons
+      window.desktopManager.init();
+
+      // 3. Initialize Taskbar & System Tray
+      window.taskbarManager.init();
+
+      // 4. Initialize Clippy Assistant
+      window.clippyAssistant.init();
+
+      // 5. Initialize BSOD & BIOS Boot Sequence
+      window.bsodController.init();
+
+      // 6. Quick Launch Bar Shortcuts
+      document.getElementById('ql-desktop').addEventListener('click', () => {
+        window.windowManager.unfocusAll();
+        window.windowManager.windows.forEach(w => window.windowManager.minimizeWindow(w.id));
+      });
+      document.getElementById('ql-ie').addEventListener('click', () => window.appLauncher.openIE());
+      document.getElementById('ql-paint').addEventListener('click', () => window.appLauncher.openPaint());
+      document.getElementById('ql-cmd').addEventListener('click', () => window.appLauncher.openDOS());
+
+      // Audio resume on first user interaction
+      const resumeAudio = () => {
+        if (window.win98Audio) window.win98Audio.init();
+        document.removeEventListener('click', resumeAudio);
+        document.removeEventListener('keydown', resumeAudio);
+      };
+      document.addEventListener('click', resumeAudio);
+      document.addEventListener('keydown', resumeAudio);
+    });
+  </script>
+</body>
+</html>

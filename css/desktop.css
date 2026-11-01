@@ -1,0 +1,133 @@
+/* ==========================================================================
+   DESKTOP AND ICONS STYLESHEET
+   The Abandoned Computer - Gandhi Hackathon Edition
+   ========================================================================== */
+
+#desktop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 28px;
+  overflow: hidden;
+  background-color: var(--teal);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  touch-action: none;
+}
+
+/* ==================== DESKTOP ICONS ==================== */
+.desktop-icons-container {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 14px 16px;
+  pointer-events: none;
+}
+
+.desktop-icon {
+  width: 74px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  pointer-events: auto;
+  padding: 4px 2px;
+  border: 1px dotted transparent;
+  user-select: none;
+}
+
+.desktop-icon:hover {
+  background: rgba(0, 0, 128, 0.15);
+}
+
+.desktop-icon.selected {
+  border: 1px dotted #ffff84;
+}
+
+.desktop-icon-img {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 4px;
+  filter: drop-shadow(1px 1px 0 rgba(0,0,0,0.4));
+  pointer-events: none;
+}
+
+.desktop-icon.selected .desktop-icon-img {
+  filter: drop-shadow(1px 1px 0 #000) brightness(0.7) sepia(1) hue-rotate(180deg) saturate(3);
+}
+
+.desktop-icon-label {
+  color: #ffffff;
+  font-size: 11px;
+  line-height: 1.2;
+  text-shadow: 1px 1px 1px #000, -1px -1px 1px #000, 1px -1px 1px #000, -1px 1px 1px #000;
+  padding: 1px 3px;
+  word-break: break-word;
+  border-radius: 1px;
+}
+
+.desktop-icon.selected .desktop-icon-label {
+  background-color: var(--selection-blue);
+  color: var(--selection-text);
+  text-shadow: none;
+}
+
+/* ==================== SELECTION MARQUEE ==================== */
+#selection-box {
+  position: absolute;
+  border: 1px dotted #000;
+  background-color: rgba(0, 0, 128, 0.2);
+  pointer-events: none;
+  display: none;
+  z-index: 99;
+}
+
+/* ==================== CONTEXT MENU ==================== */
+.context-menu {
+  position: absolute;
+  background: var(--btn-face);
+  border-top: 1px solid var(--btn-highlight);
+  border-left: 1px solid var(--btn-highlight);
+  border-right: 1px solid var(--btn-dark-shadow);
+  border-bottom: 1px solid var(--btn-dark-shadow);
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.35);
+  padding: 2px;
+  min-width: 160px;
+  z-index: 10000;
+  display: none;
+}
+
+.context-menu-item {
+  padding: 3px 20px 3px 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.context-menu-item:hover {
+  background-color: var(--selection-blue);
+  color: var(--selection-text);
+}
+
+.context-menu-item.has-submenu::after {
+  content: '▶';
+  font-size: 8px;
+  margin-left: 8px;
+}
+
+.context-menu-separator {
+  height: 1px;
+  background: var(--btn-shadow);
+  border-bottom: 1px solid var(--btn-highlight);
+  margin: 3px 1px;
+}
