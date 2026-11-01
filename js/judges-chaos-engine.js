@@ -1,32 +1,42 @@
 /* ==========================================================================
-   JUDGES CHAOS & TROLLING ENGINE ("GET THE SHIT OUT OF THE JUDGES")
+   JUDGES CHAOS & TROLLING ENGINE ("GET THE SHIT OUT OF THE JUDGES" v2.0)
    Designed for the Latent format round (Samay Raina / OpenLake / Meraz Judges)
    Features:
-   - Window Ghost Smear / Solitaire Glitch on Drag
-   - Escaping / Runaway Cancel & Low-Score Buttons
-   - Official Judge Rating Portal that rejects any score < 10
-   - Infinite Cascading "Task Failed Successfully" Popups
-   - Simulated 1998 16MB RAM Thrashing & Hourglass Freezes
-   - Demon Clippy that blocks mouse clicks & roasts judges
-   - Presenter Secret Toggle (Ctrl+Alt+K) to switch between Pure Elite & Maximum Chaos
+   - Runaway Desktop Icons: Icons literally flee from the mouse for the first 12 seconds
+   - Fake Antivirus Scan: "Threat detected" -> "Cleaning complete, all calm!" -> SUDDEN POPUP TSUNAMI!
+   - 8 Cascading Error Popups with Machine-Gun Sound Chords
+   - Crazy Wallpaper Flash on Wrong Clicks
+   - Window Smear Ghost Glitch on Drag
+   - Escaping Runaway Cancel Buttons
+   - Judge Rating Portal Locked to 10.0
+   - Presenter Secret Override: Ctrl + Alt + K toggles between Chaos & Elite Mode
    ========================================================================== */
 
 class JudgesChaosEngine {
   constructor() {
-    this.chaosEnabled = true; // Enabled by default for maximum hilarious pain!
+    this.chaosEnabled = true;
+    this.iconsFleeing = true;
+    this.fleeTimer = null;
     this.smearEnabled = true;
     this.runawayButtons = true;
-    this.ramLagEnabled = true;
-    this.demonClippy = true;
-    this.isGhosting = false;
+    this.crazyWallpapers = [
+      "linear-gradient(45deg, #ff0000 25%, #ffff00 25%, #ffff00 50%, #ff0000 50%, #ff0000 75%, #ffff00 75%, #ffff00 100%)",
+      "repeating-radial-gradient(circle, #00ff00, #00ff00 10px, #000000 10px, #000000 20px)",
+      "linear-gradient(135deg, #ff00ff 0%, #00ffff 50%, #ffff00 100%)",
+      "radial-gradient(circle at center, #000080 0%, #ff0000 70%, #000000 100%)",
+      "var(--teal)"
+    ];
+    this.wallIdx = 0;
   }
 
   init() {
     this.setupSecretHotkeys();
+    this.setupRunawayIcons();
     this.setupWindowSmearGlitch();
     this.setupEscapingButtons();
-    this.setupLagSimulator();
+    this.setupWallpaperTroll();
     this.injectChaosTrayIndicator();
+    this.scheduleFakeAntivirusPrank();
   }
 
   // Secret Hotkey for Presenters: Ctrl + Alt + K toggles Chaos Mode
@@ -40,6 +50,7 @@ class JudgesChaosEngine {
 
   toggleChaosMode(forceState = null) {
     this.chaosEnabled = forceState !== null ? forceState : !this.chaosEnabled;
+    this.iconsFleeing = false; // stop running icons if toggled off
     const indicator = document.getElementById('tray-chaos-indicator');
     if (indicator) {
       indicator.textContent = this.chaosEnabled ? '🔥 CHAOS' : '🛡️ NORMAL';
@@ -47,13 +58,17 @@ class JudgesChaosEngine {
     }
 
     if (this.chaosEnabled) {
-      window.win98Audio.playChordError();
-      window.clippyAssistant.setCustomText("😈 JUDGES SUFFERING MODE ACTIVATED! Prepare for 1998 hardware torture.");
+      window.win98Audio.playRapidErrorMachineGun(4);
+      window.clippyAssistant.setCustomText("😈 JUDGES SUFFERING MODE ACTIVE! Prepare for 1998 hardware torture.");
     } else {
       window.win98Audio.playStartupChime();
-      window.clippyAssistant.setCustomText("😇 Normal Elite Mode restored. Presenters are in full control.");
-      // Clear any spawned error popups
+      window.clippyAssistant.setCustomText("😇 Normal Elite Mode restored. Presenters have full control.");
       document.querySelectorAll('.chaos-popup').forEach(p => p.remove());
+      document.getElementById('desktop').style.background = 'var(--teal)';
+      // Reset all icons
+      document.querySelectorAll('.desktop-icon').forEach(icon => {
+        icon.style.transform = 'translate(0px, 0px)';
+      });
     }
   }
 
@@ -78,7 +93,156 @@ class JudgesChaosEngine {
     tray.insertBefore(ind, tray.firstChild);
   }
 
-  // 1. The Legendary Frozen Windows 98 Window Smear Glitch
+  // 1. Runaway Desktop Icons: Icons flee from the cursor for the first 12 seconds
+  setupRunawayIcons() {
+    const icons = document.querySelectorAll('.desktop-icon');
+    
+    // Stop fleeing after 14 seconds
+    setTimeout(() => {
+      this.iconsFleeing = false;
+      icons.forEach(i => i.style.transform = 'translate(0px, 0px)');
+      if (this.chaosEnabled) {
+        window.clippyAssistant.setCustomText("😅 Icons have surrendered! You may now try to click them.");
+      }
+    }, 14000);
+
+    document.addEventListener('mousemove', (e) => {
+      if (!this.chaosEnabled || !this.iconsFleeing) return;
+
+      icons.forEach(icon => {
+        const rect = icon.getBoundingClientRect();
+        const iconCenterX = rect.left + rect.width / 2;
+        const iconCenterY = rect.top + rect.height / 2;
+        const dist = Math.hypot(e.clientX - iconCenterX, e.clientY - iconCenterY);
+
+        if (dist < 85) {
+          // Flee in opposite direction
+          const angle = Math.atan2(iconCenterY - e.clientY, iconCenterX - e.clientX);
+          const fleeDistance = 90;
+          const targetX = Math.cos(angle) * fleeDistance + (Math.random() - 0.5) * 40;
+          const targetY = Math.sin(angle) * fleeDistance + (Math.random() - 0.5) * 40;
+
+          icon.style.transition = 'transform 0.15s ease-out';
+          icon.style.transform = `translate(${targetX}px, ${targetY}px)`;
+          
+          if (Math.random() > 0.8) {
+            window.win98Audio.playSpringBoing();
+          }
+        }
+      });
+    });
+  }
+
+  // 2. The Fake Antivirus -> Everything is Peaceful -> SUDDEN POPUP TSUNAMI!
+  scheduleFakeAntivirusPrank() {
+    setTimeout(() => {
+      if (!this.chaosEnabled) return;
+      this.openFakeAntivirus();
+    }, 12000);
+  }
+
+  openFakeAntivirus() {
+    window.win98Audio.playChordError();
+    const winId = 'win_av_' + Date.now();
+    const content = document.createElement('div');
+    content.className = 'chaos-popup';
+    content.style.padding = '14px';
+    content.style.background = 'var(--btn-face)';
+    content.style.fontSize = '11px';
+
+    content.innerHTML = `
+      <div style="display: flex; gap: 10px; margin-bottom: 12px; align-items: center;">
+        <div style="font-size: 32px;">🛡️</div>
+        <div>
+          <b style="color: #800000; font-size: 13px;">MICROSOFT ANTIVIRUS 1998</b><br/>
+          <span>Threat Detected: <b>Worm.Win98.JudgeRatingBribe.v1</b></span>
+        </div>
+      </div>
+      <div style="border: 1px inset #808080; background: #fff; padding: 8px; margin-bottom: 14px; font-family: monospace;">
+        Status: SYSTEM INFECTED WITH EXCESSIVE SARCASM<br/>
+        Risk Level: MAXIMUM (Score at risk of dropping below 10)
+      </div>
+      <div style="display: flex; justify-content: flex-end; gap: 6px;">
+        <button class="button-bevel" id="${winId}_clean" style="font-weight: bold; width: 140px; color: #000080;">Purge Threat Now</button>
+      </div>
+    `;
+
+    window.windowManager.createWindow({
+      id: winId,
+      title: 'Antivirus 98 - Alert',
+      icon: Win98Icons.windowsLogo,
+      width: 360,
+      height: 190,
+      resizable: false,
+      content: content
+    });
+
+    content.querySelector(`#${winId}_clean`).addEventListener('click', () => {
+      window.windowManager.closeWindow(winId);
+      window.win98Audio.playClick();
+      window.clippyAssistant.setCustomText("✅ Threat purged! System is now 100% peaceful and safe. Nothing bad will happen.");
+
+      // 2.5 seconds of pure fake peace...
+      setTimeout(() => {
+        if (!this.chaosEnabled) return;
+        this.triggerTsunamiJumpscare();
+      }, 2500);
+    });
+  }
+
+  // The Grand Chaos Avalanche
+  triggerTsunamiJumpscare() {
+    window.win98Audio.playRapidErrorMachineGun(10);
+    this.flashWallpaper();
+
+    const hilariousErrors = [
+      { title: "CRITICAL FAILURE", msg: "VIRUS HAS UPGRADED TO WINDOWS 98 PROFESSIONAL EDITION." },
+      { title: "HARDWARE WARNING", msg: "RAM replaced with 500g of Bhilai Steel ingot. Performance unaffected." },
+      { title: "LATENT ALERT", msg: "Samay Raina detected in audience. Automatic checkmate initiated." },
+      { title: "CANTEEN NOTICE", msg: "Outstanding debt of 42 Rs for Bun Maska detected in memory address 0xTEA." },
+      { title: "TASK FAILED SUCCESSFULLY", msg: "Operation completed with 100% failure rate. Press OK to celebrate." },
+      { title: "MOUSE WARNING", msg: "Mouse has acquired sentience and requested 10/10 hackathon score." }
+    ];
+
+    hilariousErrors.forEach((err, idx) => {
+      setTimeout(() => {
+        if (!this.chaosEnabled) return;
+        this.spawnCascadingError(err.title, err.msg, 60 + idx * 30, 40 + idx * 30);
+      }, idx * 180);
+    });
+
+    window.clippyAssistant.setCustomText("🚨 SURPRISE! The virus was just taking a chai break! Look at all these glorious error dialogs!");
+  }
+
+  // 3. Crazy Wallpaper Flash on Wrong Icon Click
+  setupWallpaperTroll() {
+    document.getElementById('desktop').addEventListener('click', (e) => {
+      if (!this.chaosEnabled) return;
+      if (e.target === document.getElementById('desktop') && Math.random() > 0.6) {
+        this.cycleWallpaper();
+      }
+    });
+  }
+
+  cycleWallpaper() {
+    this.wallIdx = (this.wallIdx + 1) % this.crazyWallpapers.length;
+    document.getElementById('desktop').style.background = this.crazyWallpapers[this.wallIdx];
+    window.win98Audio.playClick();
+  }
+
+  flashWallpaper() {
+    let flashes = 0;
+    const interval = setInterval(() => {
+      this.cycleWallpaper();
+      flashes++;
+      if (flashes > 6) {
+        clearInterval(interval);
+        document.getElementById('desktop').style.background = 'var(--teal)';
+      }
+    }, 150);
+  }
+
+  // 4. Infinite Window Smear Glitch
   setupWindowSmearGlitch() {
     document.addEventListener('mousemove', (e) => {
       if (!this.chaosEnabled || !this.smearEnabled) return;
@@ -87,8 +251,7 @@ class JudgesChaosEngine {
       const activeWin = window.windowManager.windows.get(window.windowManager.activeWindowId);
       if (!activeWin || !activeWin.el) return;
 
-      // Only smear if currently dragging or moving mouse rapidly
-      if (e.buttons === 1 && Math.random() > 0.4) {
+      if (e.buttons === 1 && Math.random() > 0.35) {
         const clone = document.createElement('div');
         clone.className = 'chaos-ghost-window';
         clone.style.position = 'absolute';
@@ -104,20 +267,17 @@ class JudgesChaosEngine {
         clone.style.padding = '2px 4px';
         clone.style.pointerEvents = 'none';
         clone.style.zIndex = '50';
-        clone.textContent = activeWin.title + ' (Not Responding)';
+        clone.textContent = activeWin.title + ' [NOT RESPONDING]';
 
         document.getElementById('desktop').appendChild(clone);
 
-        // Keep at most 40 ghosts
         const ghosts = document.querySelectorAll('.chaos-ghost-window');
-        if (ghosts.length > 40) {
-          ghosts[0].remove();
-        }
+        if (ghosts.length > 35) ghosts[0].remove();
       }
     });
   }
 
-  // 2. Escaping / Runaway Cancel & Low Score Buttons
+  // 5. Escaping Runaway Buttons
   setupEscapingButtons() {
     document.addEventListener('mouseover', (e) => {
       if (!this.chaosEnabled || !this.runawayButtons) return;
@@ -125,52 +285,21 @@ class JudgesChaosEngine {
 
       if (target.classList.contains('runaway-btn') || 
           target.textContent.trim().toLowerCase() === 'cancel' || 
-          target.id.includes('bribe') ||
-          target.classList.contains('title-btn-close') && Math.random() > 0.7) {
+          target.textContent.trim().toLowerCase() === 'give 0 / 10' ||
+          target.classList.contains('title-btn-close') && Math.random() > 0.75) {
         
         target.style.position = 'relative';
-        const randX = (Math.random() - 0.5) * 160;
-        const randY = (Math.random() - 0.5) * 80;
+        const randX = (Math.random() - 0.5) * 180;
+        const randY = (Math.random() - 0.5) * 100;
         target.style.transform = `translate(${randX}px, ${randY}px)`;
-        window.win98Audio.playClick();
-
-        if (Math.random() > 0.6) {
-          target.title = "Can't touch this! — Samay Raina Proof Engine";
-        }
+        window.win98Audio.playSpringBoing();
       }
     });
   }
 
-  // 3. Simulated 1998 RAM Thrashing & Random Lag Freezes
-  setupLagSimulator() {
-    setInterval(() => {
-      if (!this.chaosEnabled || !this.ramLagEnabled) return;
-      if (Math.random() > 0.85) {
-        // Trigger temporary hourglass freeze
-        document.body.style.cursor = 'wait';
-        const activeWin = window.windowManager.activeWindowId;
-        if (activeWin) {
-          const win = window.windowManager.windows.get(activeWin);
-          if (win && win.el) {
-            const titleText = win.el.querySelector('.titlebar-text');
-            if (titleText && !titleText.textContent.includes('Not Responding')) {
-              const original = titleText.textContent;
-              titleText.textContent += ' [NOT RESPONDING - 16MB RAM EXHAUSTED]';
-              setTimeout(() => {
-                titleText.textContent = original;
-                document.body.style.cursor = 'default';
-              }, 1800);
-            }
-          }
-        }
-      }
-    }, 12000);
-  }
-
-  // 4. Infinite Russian Doll Error Dialogs
-  spawnCascadingError(title = "System Alert", message = "Task failed successfully.") {
-    window.win98Audio.playChordError();
-    const winId = 'chaos_err_' + Date.now();
+  // Error Dialog Spawner
+  spawnCascadingError(title = "System Alert", message = "Task failed successfully.", x = null, y = null) {
+    const winId = 'chaos_err_' + Date.now() + '_' + Math.floor(Math.random()*1000);
     const content = document.createElement('div');
     content.className = 'chaos-popup';
     content.style.padding = '14px 16px';
@@ -178,7 +307,7 @@ class JudgesChaosEngine {
 
     content.innerHTML = `
       <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 14px;">
-        <div style="width: 32px; height: 32px; background: #ff0000; border-radius: 50%; color: #fff; font-size: 22px; font-weight: bold; display: flex; align-items: center; justify-content: center;">✕</div>
+        <div style="width: 32px; height: 32px; background: #ff0000; border-radius: 50%; color: #fff; font-size: 22px; font-weight: bold; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">✕</div>
         <div style="line-height: 1.4;">
           <b>${title}</b><br/>
           ${message}
@@ -190,24 +319,21 @@ class JudgesChaosEngine {
       </div>
     `;
 
-    const winRecord = window.windowManager.createWindow({
+    window.windowManager.createWindow({
       id: winId,
       title: title,
       icon: Win98Icons.windowsLogo,
       width: 340,
       height: 160,
+      x: x !== null ? x : 100 + Math.random() * 200,
+      y: y !== null ? y : 80 + Math.random() * 150,
       resizable: false,
       content: content
     });
 
     content.querySelector(`#${winId}_ok`).addEventListener('click', () => {
       window.windowManager.closeWindow(winId);
-      // Spawn two more if in chaos mode!
-      if (this.chaosEnabled) {
-        setTimeout(() => {
-          this.spawnCascadingError("Confirmation of Failure", "Are you sure you acknowledged the previous fatal error?");
-        }, 300);
-      }
+      window.win98Audio.playClick();
     });
 
     content.querySelector(`#${winId}_cancel`).addEventListener('click', () => {
@@ -215,7 +341,7 @@ class JudgesChaosEngine {
     });
   }
 
-  // 5. Official Judges Rating Portal App (The Ultimate Roast)
+  // Official Judges Rating Portal App
   openJudgeRatingApp() {
     const winId = 'win_judge_portal_' + Date.now();
     const content = document.createElement('div');
@@ -267,11 +393,10 @@ class JudgesChaosEngine {
     const submitBtn = content.querySelector(`#${winId}_submit`);
     const msgEl = content.querySelector(`#${winId}_msg`);
 
-    // Force slider back to 10 with funny boing!
     slider.addEventListener('input', () => {
       const v = parseFloat(slider.value);
       if (v < 9.8) {
-        window.win98Audio.playChordError();
+        window.win98Audio.playRapidErrorMachineGun(3);
         slider.value = 10;
         valText.textContent = "10.0";
         alert("🚨 ERROR 403: Low score rejected! Windows 98 detected illegal criticism. Slider locked to 10.0!");
@@ -287,7 +412,7 @@ class JudgesChaosEngine {
     });
   }
 
-  // 6. Prank Control Center (For Presenters)
+  // Prank Control Center (For Presenters)
   openPrankSettings() {
     const winId = 'win_prank_settings_' + Date.now();
     const content = document.createElement('div');
@@ -304,10 +429,9 @@ class JudgesChaosEngine {
       <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px;">
         <label><input type="checkbox" id="${winId}_tog_smear" ${this.smearEnabled ? 'checked' : ''} /> Infinite Window Smearing Glitch on Drag</label>
         <label><input type="checkbox" id="${winId}_tog_runaway" ${this.runawayButtons ? 'checked' : ''} /> Runaway Escaping Cancel Buttons</label>
-        <label><input type="checkbox" id="${winId}_tog_ram" ${this.ramLagEnabled ? 'checked' : ''} /> 16MB RAM Thrashing & Hourglass Freezes</label>
       </div>
       <div style="display: flex; gap: 8px; justify-content: flex-end;">
-        <button class="button-bevel" id="${winId}_test_err" style="color: #ff0000;">Trigger Test Error</button>
+        <button class="button-bevel" id="${winId}_test_err" style="color: #ff0000;">Trigger Popups</button>
         <button class="button-bevel" id="${winId}_bsod" style="color: #0000aa;">Trigger Instant BSOD</button>
         <button class="button-bevel" id="${winId}_close" style="font-weight: bold;">Done</button>
       </div>
@@ -325,8 +449,7 @@ class JudgesChaosEngine {
 
     content.querySelector(`#${winId}_tog_smear`).addEventListener('change', (e) => { this.smearEnabled = e.target.checked; });
     content.querySelector(`#${winId}_tog_runaway`).addEventListener('change', (e) => { this.runawayButtons = e.target.checked; });
-    content.querySelector(`#${winId}_tog_ram`).addEventListener('change', (e) => { this.ramLagEnabled = e.target.checked; });
-    content.querySelector(`#${winId}_test_err`).addEventListener('click', () => this.spawnCascadingError());
+    content.querySelector(`#${winId}_test_err`).addEventListener('click', () => this.triggerTsunamiJumpscare());
     content.querySelector(`#${winId}_bsod`).addEventListener('click', () => window.appLauncher.triggerBSOD());
     content.querySelector(`#${winId}_close`).addEventListener('click', () => window.windowManager.closeWindow(winId));
   }

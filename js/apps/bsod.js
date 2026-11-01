@@ -41,16 +41,16 @@ class BSODController {
     this.bootEl.style.display = 'flex';
     this.splashEl.style.display = 'none';
 
-    // BIOS text simulation
+    // BIOS text simulation (Hilarious Hackathon Edition)
     const biosLines = [
-      "Award Modular BIOS v4.51PG, An Energy Star Ally",
-      "Copyright (C) 1984-98, Award Software, Inc.",
-      "PENTIUM II-MMX CPU at 333MHz",
-      "Memory Test: 64MB OK",
-      "Detecting Primary Master ... QUANTUM FIREBALL EX4.3A",
-      "Detecting Primary Slave  ... ATAPI CD-ROM 32X",
-      "Verifying DMI Pool Data ...........",
-      "Starting Windows 98..."
+      "Award Modular BIOS v4.51PG - Cursed IIT Bhilai Edition",
+      "CPU: Intel Celeron 12MHz (Underclocked for maximum judge suffering)",
+      "RAM Check: 640KB OK (Enough for anyone, Bill Gates said so)",
+      "WARNING: Suspicious judge breathing detected near monitor.",
+      "Detecting Primary HDD ... QUANTUM RUSTBALL 4.3GB (Making strange grinding noises)",
+      "Checking Floppy Drive A: ... 14 Maggi noodle recipes found",
+      "CAUTION: Potential Y2K viral outbreak detected in sector 0xROAST",
+      "Loading Windows 98... Please prepare to have your mind completely blown."
     ];
 
     const biosTextContainer = document.getElementById('bios-text');

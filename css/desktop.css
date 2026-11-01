@@ -15,6 +15,7 @@
   background-repeat: no-repeat;
   background-size: cover;
   touch-action: none;
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><polygon points="0,0 0,18 4,14 8,22 11,20 7,12 13,12" fill="%23fff" stroke="%23000" stroke-width="1.5"/></svg>'), default;
 }
 
 /* ==================== DESKTOP ICONS ==================== */
@@ -42,6 +43,7 @@
   padding: 4px 2px;
   border: 1px dotted transparent;
   user-select: none;
+  transition: transform 0.15s ease-out;
 }
 
 .desktop-icon:hover {
