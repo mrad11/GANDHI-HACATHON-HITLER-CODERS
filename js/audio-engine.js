@@ -216,6 +216,46 @@ class Win98AudioEngine {
     }, 6000);
   }
 
+  // Funny Chaos Siren
+  playSiren() {
+    this.init();
+    const t = this.ctx.currentTime;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(400, t);
+    osc.frequency.linearRampToValueAtTime(900, t + 0.3);
+    osc.frequency.linearRampToValueAtTime(400, t + 0.6);
+    osc.frequency.linearRampToValueAtTime(900, t + 0.9);
+    gain.gain.setValueAtTime(0.25, t);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + 1.0);
+    osc.connect(gain);
+    gain.connect(this.masterGain);
+    osc.start(t);
+    osc.stop(t + 1.0);
+  }
+
+  // Funny Meme Fanfare on Startup
+  playFunnyFanfare() {
+    this.init();
+    const notes = [261.63, 329.63, 392.00, 523.25, 493.88, 523.25];
+    notes.forEach((f, idx) => {
+      setTimeout(() => {
+        const t = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const g = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(f, t);
+        g.gain.setValueAtTime(0.3, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 0.35);
+        osc.connect(g);
+        g.connect(this.masterGain);
+        osc.start(t);
+        osc.stop(t + 0.35);
+      }, idx * 120);
+    });
+  }
+
   // Rapid-Fire Machine Gun Error Dings
   playRapidErrorMachineGun(count = 6) {
     this.init();

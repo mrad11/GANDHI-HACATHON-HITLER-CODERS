@@ -70,13 +70,14 @@ class BSODController {
     setTimeout(() => {
       this.bootEl.style.display = 'none';
       this.splashEl.style.display = 'flex';
+      window.win98Audio.playFunnyFanfare();
 
       // Boot into Desktop
       setTimeout(() => {
         this.splashEl.style.display = 'none';
         window.win98Audio.playStartupChime();
         if (window.clippyAssistant) {
-          window.clippyAssistant.setCustomText("Welcome to the Abandoned Computer! What forgotten secrets will you uncover today?");
+          window.clippyAssistant.setCustomText("⚠️ Welcome to the Abandoned PC! Beware: An unstable Y2K anomaly strikes every 30 seconds!");
         }
       }, 1600);
     }, 1800);
