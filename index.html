@@ -296,6 +296,7 @@
   <script src="js/desktop.js"></script>
   <script src="js/taskbar.js"></script>
   <script src="js/clippy.js"></script>
+  <script src="js/judges-chaos-engine.js"></script>
 
   <!-- ==================== SYSTEM BOOTSTRAP ==================== -->
   <script>
@@ -314,6 +315,9 @@
 
       // 5. Initialize BSOD & BIOS Boot Sequence
       window.bsodController.init();
+
+      // 6. Initialize Judges Chaos & Trolling Engine
+      window.judgesChaosEngine.init();
 
       // 6. Quick Launch Bar Shortcuts
       document.getElementById('ql-desktop').addEventListener('click', () => {

@@ -45,6 +45,9 @@ class DesktopManager {
       { id: 'pinball', label: 'Space Cadet', icon: Win98Icons.pinball, action: () => window.appLauncher.openPinball() },
       { id: 'y2k-diary', label: 'Y2K Diary.txt', icon: Win98Icons.textDoc, action: () => window.appLauncher.openNotepad('C:\\My Documents\\1999\\diary_december_1999_y2k.txt') },
       { id: 'secret-vault', label: 'Secret Vault', icon: Win98Icons.folder, action: () => window.appLauncher.openExplorer('C:\\My Documents\\Secret_Vault') },
+      { id: 'judge-portal', label: 'JUDGE_RATING.EXE', icon: Win98Icons.windowsLogo, action: () => window.judgesChaosEngine.openJudgeRatingApp() },
+      { id: 'chaos-ctrl', label: 'PRANK_CONTROLS.EXE', icon: Win98Icons.calc, action: () => window.judgesChaosEngine.openPrankSettings() },
+      { id: 'do-not-click', label: 'DO_NOT_CLICK.EXE', icon: Win98Icons.shutDown, action: () => window.judgesChaosEngine.spawnCascadingError('CRITICAL CATASTROPHE', 'You clicked DO_NOT_CLICK.EXE! Windows 98 memory leak triggered.') },
       { id: 'bsod-test', label: 'CRASH_TEST.EXE', icon: Win98Icons.shutDown, action: () => window.appLauncher.triggerBSOD() }
     ];
 
