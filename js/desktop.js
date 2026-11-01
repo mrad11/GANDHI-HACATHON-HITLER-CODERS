@@ -55,10 +55,16 @@ class DesktopManager {
       const iconEl = document.createElement('div');
       iconEl.className = 'desktop-icon';
       iconEl.id = `icon_${cfg.id}`;
-      iconEl.innerHTML = `
-        <img class="desktop-icon-img" src="${cfg.icon}" alt="" />
-        <span class="desktop-icon-label">${cfg.label}</span>
-      `;
+      const img = document.createElement('img');
+      img.className = 'desktop-icon-img';
+      img.src = cfg.icon;
+      img.alt = cfg.label;
+      img.draggable = false;
+      const span = document.createElement('span');
+      span.className = 'desktop-icon-label';
+      span.textContent = cfg.label;
+      iconEl.appendChild(img);
+      iconEl.appendChild(span);
 
       // Selection on click
       iconEl.addEventListener('click', (e) => {
